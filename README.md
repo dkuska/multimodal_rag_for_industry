@@ -1,6 +1,6 @@
 # Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications
 
-This repository implements the methods described in the paper **Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications**. It provides the tools, scripts, and evaluation methods necessary to reproduce the experiments presented in the paper.
+This repository implements the methods described in the paper This repository implements the methods described in the paper [Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications](https://arxiv.org/abs/2410.21943). It provides the tools, scripts, and evaluation methods necessary to reproduce the experiments presented in the paper.
 
 ## Table of Contents
 
@@ -124,6 +124,24 @@ You are done!
 The following figure provides an overview of the **Answer Correctness** of different RAG approaches, including text-only, image-only, and multimodal RAG. This visualization shows how integrating multiple modalities affects the accuracy of generated responses.
 
 ![Answer Correctness Across All Approaches](img/results/all_approaches/ans_correctness.png)
+
+More results can be found in the `img/results` folder.
+
+## How to Cite
+
+If you use this code or find our work helpful, please cite our paper:
+
+```bibtex
+@misc{riedler2024textoptimizingragmultimodal,
+      title={Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications}, 
+      author={Monica Riedler and Stefan Langer},
+      year={2024},
+      eprint={2410.21943},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2410.21943}, 
+}
+```
 
 ## License
 
