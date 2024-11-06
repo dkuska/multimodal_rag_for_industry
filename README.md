@@ -1,6 +1,6 @@
 # Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications
 
-This repository implements the methods described in the paper This repository implements the methods described in the paper [Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications](https://arxiv.org/abs/2410.21943). It provides the tools, scripts, and evaluation methods necessary to reproduce the experiments presented in the paper.
+This repository implements the methods described in the paper [Beyond Text: Optimizing RAG with Multimodal Inputs for Industrial Applications](https://arxiv.org/abs/2410.21943). It provides the tools, scripts, and evaluation methods necessary to reproduce the experiments presented in the paper.
 
 ## Table of Contents
 
