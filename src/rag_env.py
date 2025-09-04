@@ -9,13 +9,15 @@ MODEL_TYPE  = 'gpt4_vision'
 # text embedding model, set to 'openai' to use text-embeding-3-small, otherwise bge-m3 will be used
 EMBEDDING_MODEL_TYPE = "openai"
 
+DATASET_ID = 0
+
 DATASET_NAME = [
     "DocBench",
-    "SlideVQA",
     "LongDocURL",
     "MMLongBenchDoc",
     "OHRBench",
-][0]
+    "SlideVQA",
+][DATASET_ID]
 
 # excel file containing questions and reference answers
 REFERENCE_QA = f"../../data/{DATASET_NAME}/reference_qa.xlsx"
@@ -23,8 +25,17 @@ REFERENCE_QA = f"../../data/{DATASET_NAME}/reference_qa.xlsx"
 # directory containing the pdf files from which to extract texts and images
 MANUALS_DIR = f"../../data/{DATASET_NAME}/pdfs/"
 
+MANUALS_DIR = [
+    "./home/nano/projects/ChunkQuest/data/datasets/DocBench",
+    "./home/nano/projects/ChunkQuest/data/datasets/LongDocURL/documents",
+    "./home/nano/projects/ChunkQuest/data/datasets/MMLongBenchDoc/documents",
+    "./home/nano/projects/ChunkQuest/data/datasets/OHRBench/documents",
+    "./home/nano/projects/ChunkQuest/data/datasets/SlideVQA/test/documents",
+][DATASET_ID]
+
+
 # parquet file where extracted texts and image bytes are stored
-INPUT_DATA = r'../../data/{DATASET_NAME}/extracted_texts_and_imgs.parquet'
+INPUT_DATA = f'../../data/{DATASET_NAME}/extracted_texts_and_imgs.parquet'
 
 # directory where extracted images are stored
 IMAGES_DIR = f"../../data/{DATASET_NAME}/images"
