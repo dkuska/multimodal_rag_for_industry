@@ -21,7 +21,7 @@ DATASET_NAME = [
 REFERENCE_QA = f"../../data/{DATASET_NAME}/reference_qa.xlsx"
 
 # directory containing the pdf files from which to extract texts and images
-MANUALS_DIR = "YOUR_PATH_HERE"
+MANUALS_DIR = f"../../data/{DATASET_NAME}/pdfs/"
 
 # parquet file where extracted texts and image bytes are stored
 INPUT_DATA = r'../../data/{DATASET_NAME}/extracted_texts_and_imgs.parquet'
