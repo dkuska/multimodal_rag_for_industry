@@ -26,11 +26,11 @@ REFERENCE_QA = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_N
 MANUALS_DIR = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/pdfs/"
 
 MANUALS_DIR = [
-    "./home/nano/projects/ChunkQuest/data/datasets/DocBench",
-    "./home/nano/projects/ChunkQuest/data/datasets/LongDocURL/documents",
-    "./home/nano/projects/ChunkQuest/data/datasets/MMLongBenchDoc/documents",
-    "./home/nano/projects/ChunkQuest/data/datasets/OHRBench/documents",
-    "./home/nano/projects/ChunkQuest/data/datasets/SlideVQA/test/documents",
+    "/home/nano/projects/ChunkQuest/data/datasets/DocBench",
+    "/home/nano/projects/ChunkQuest/data/datasets/LongDocURL/documents",
+    "/home/nano/projects/ChunkQuest/data/datasets/MMLongBenchDoc/documents",
+    "/home/nano/projects/ChunkQuest/data/datasets/OHRBench/documents",
+    "/home/nano/projects/ChunkQuest/data/datasets/SlideVQA/test/documents",
 ][DATASET_ID]
 
 

@@ -2,8 +2,11 @@ import fitz
 import glob
 import os
 import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 import sys
 import time
+from tqdm import tqdm
 from typing import List, Any
 from data_extraction.context_reduction import get_token_count
 from rag_env import IMAGES_DIR, INPUT_DATA, MANUALS_DIR
@@ -216,23 +219,59 @@ def create_dataframe_from_pdf(input_file: str, use_pages: bool, max_tokens: int,
 if __name__ == "__main__":
     start_time = time.time()
 
-    combined_df = pd.DataFrame()
+    input_files = glob.glob(f"{MANUALS_DIR}/**/*.pdf", recursive=True)
+    print(len(input_files), "pdf files found in", MANUALS_DIR)
+    os.makedirs(IMAGES_DIR, exist_ok=True)
 
-    input_files = glob.glob(os.path.join(MANUALS_DIR, "*.pdf"))
-    if not os.path.exists(IMAGES_DIR):
-        os.mkdir(IMAGES_DIR)
+    # Initialize variables for incremental writing
+    writer = None
+    schema = None
+    batch_size = 10  # Process and write every N files
+    batch_dfs = []
+    total_rows = 0
 
-    for input_file in input_files:
-        df = create_dataframe_from_pdf(
-            input_file=input_file,
-            use_pages=True,
-            max_tokens=0,
-            imgdir=IMAGES_DIR,
-            pandas_df=None
-        )
-        combined_df = pd.concat([combined_df, df], ignore_index=True)
-
-    combined_df.to_parquet(INPUT_DATA, engine='pyarrow')
+    try:
+        for i, input_file in enumerate(tqdm(input_files)):
+            df = create_dataframe_from_pdf(
+                input_file=input_file,
+                use_pages=True,
+                max_tokens=0,
+                imgdir=IMAGES_DIR,
+                pandas_df=None
+            )
+            
+            if not df.empty:
+                batch_dfs.append(df)
+                
+                # Write batch when we reach batch_size or on the last file
+                if len(batch_dfs) >= batch_size or i == len(input_files) - 1:
+                    # Combine batch DataFrames
+                    batch_df = pd.concat(batch_dfs, ignore_index=True)
+                    
+                    # Initialize writer on first batch
+                    if writer is None:
+                        # Create PyArrow table from the first batch
+                        table = pa.Table.from_pandas(batch_df)
+                        schema = table.schema
+                        
+                        # Create the writer
+                        writer = pq.ParquetWriter(INPUT_DATA, schema, compression='snappy')
+                    
+                    # Write the batch
+                    table = pa.Table.from_pandas(batch_df, schema=schema)
+                    writer.write_table(table)
+                    
+                    total_rows += len(batch_df)
+                    utils_logger.info(f"Written {total_rows} rows so far...")
+                    
+                    # Clear the batch
+                    batch_dfs = []
+                    
+    finally:
+        # Close the writer
+        if writer is not None:
+            writer.close()
+            print(f"Successfully written {total_rows} total rows to {INPUT_DATA}")
 
     end_time = time.time()
     print("total time %g sec" % (end_time - start_time))
