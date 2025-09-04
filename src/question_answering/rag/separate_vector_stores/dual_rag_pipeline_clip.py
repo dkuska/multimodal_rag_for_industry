@@ -30,21 +30,20 @@ class DualMultimodalRAGPipelineClip:
         rag_chain (DualMultimodalRAGChain): RAG chain performing the QA task.
     """
     def __init__(self, model_type, store_path, text_embedding_model):
-        
+
         config = get_azure_config()
-        
+
         if model_type in config:
             print("Using Azure model for answer generation")
             azure_llm_config = config[model_type]
-            self.model = AzureChatOpenAI(
+            self.model = ChatOpenAI(
                 openai_api_version=azure_llm_config["openai_api_version"],
-                azure_endpoint=azure_llm_config["openai_endpoint"],
-                azure_deployment=azure_llm_config["deployment_name"],
                 model=azure_llm_config["model_version"],
-                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-                max_tokens=400)
+                api_key=os.getenv("OPENAI_API_KEY"),
+                max_tokens=400,
+            )
             self.tokenizer = None
-            
+
         else:
             print("Using LLaVA model for answer generation")
             self.model, self.tokenizer = load_llava_model("llava-hf/llava-v1.6-mistral-7b-hf")
@@ -68,7 +67,7 @@ class DualMultimodalRAGPipelineClip:
     def summarize_data(self, texts: List[str]) -> List[str]:
         text_summaries = self.text_summarizer.summarize(texts)
         return text_summaries
-    
+
     def index_data(self, images_dir: str, texts: List[str], text_filenames: List[str], text_summaries: List[str]=None):
         self.dual_retriever.add_images(images_dir)
         if text_summaries:

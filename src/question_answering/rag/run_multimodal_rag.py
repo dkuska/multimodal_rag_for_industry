@@ -7,7 +7,7 @@ from separate_vector_stores.dual_rag_pipeline_summaries import DualMultimodalRAG
 from rag_env import *
 
 
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 def write_to_df(df, user_query, reference_answer, generated_answer, context, image, output_file):

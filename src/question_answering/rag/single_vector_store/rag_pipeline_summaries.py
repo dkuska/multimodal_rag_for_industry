@@ -36,12 +36,10 @@ class MultimodalRAGPipelineSummaries:
         if model_type in config:
             print("Using Azure model for answer generation")
             azure_llm_config = config[model_type]
-            self.model = AzureChatOpenAI(
+            self.model = ChatOpenAI(
                 openai_api_version=azure_llm_config["openai_api_version"],
-                azure_endpoint=azure_llm_config["openai_endpoint"],
-                azure_deployment=azure_llm_config["deployment_name"],
                 model=azure_llm_config["model_version"],
-                api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+                api_key=os.getenv("OPENAI_API_KEY"),
                 max_tokens=400)
             self.tokenizer = None
             

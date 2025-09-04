@@ -20,10 +20,8 @@ class CorrectContextQAChain:
         if model_type in config:
             print("Using Azure model")
             azure_llm_config = config[model_type]
-            self.model = AzureChatOpenAI(
+            self.model = ChatOpenAI(
                 openai_api_version=azure_llm_config["openai_api_version"],
-                azure_endpoint=azure_llm_config["openai_endpoint"],
-                azure_deployment=azure_llm_config["deployment_name"],
                 model=azure_llm_config["model_version"],
                 api_key=azure_llm_config["openai_api_key"],
                 max_tokens=400)
@@ -96,7 +94,7 @@ class CorrectContextQAChain:
         Use this information from both text and image (if present) to provide an answer to the user question.\n
         Avoid expressions like: 'according to the text/image provided' and similar, and just answer the question directly."""
         
-        if type(self.model) == AzureChatOpenAI:
+        if type(self.model) == ChatOpenAI:
             prompt_dict = self.azure_qa(data_dict, qa_prompt)
         else:
             prompt_dict = self.llava_qa(data_dict, qa_prompt)

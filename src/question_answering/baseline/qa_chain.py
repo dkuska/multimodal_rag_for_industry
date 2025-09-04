@@ -22,10 +22,8 @@ class QAChain:
         if model_type in config:
             print("Using Azure model")
             azure_llm_config = config[model_type]
-            self.model = AzureChatOpenAI(
+            self.model = ChatOpenAI(
                 openai_api_version=azure_llm_config["openai_api_version"],
-                azure_endpoint=azure_llm_config["openai_endpoint"],
-                azure_deployment=azure_llm_config["deployment_name"],
                 model=azure_llm_config["model_version"],
                 api_key=azure_llm_config["openai_api_key"],
                 max_tokens=400)
@@ -66,7 +64,7 @@ class QAChain:
         
         qa_prompt = """You are an expert AI assistant that answers questions about manuals from the industrial domain.\n"""
         
-        if type(self.model) == AzureChatOpenAI:
+        if type(self.model) == ChatOpenAI:
             prompt = self.azure_qa(data_dict, qa_prompt)
         else:
             prompt = self.llava_qa(data_dict, qa_prompt)

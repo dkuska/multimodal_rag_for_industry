@@ -114,7 +114,7 @@ class DualMultimodalRAGChain:
         Use this information from both text and image (if present) to provide an answer to the user question.\n
         Avoid expressions like: 'according to the text/image provided' and similar, and just answer the question directly."""
         
-        if type(self.model) == AzureChatOpenAI:
+        if type(self.model) == ChatOpenAI:
             prompt = self.azure_qa(data_dict, qa_prompt)
         else:
             prompt = self.llava_qa(data_dict, qa_prompt)

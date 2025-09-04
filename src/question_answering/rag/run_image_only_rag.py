@@ -4,7 +4,7 @@ from single_vector_store.rag_pipeline_clip import MultimodalRAGPipelineClip
 from single_vector_store.rag_pipeline_summaries import MultimodalRAGPipelineSummaries
 from rag_env import EMBEDDING_MODEL_TYPE, IMAGES_DIR, IMG_SUMMARIES_CACHE_DIR, INPUT_DATA, MODEL_TYPE, RAG_OUTPUT_DIR, REFERENCE_QA, VECTORSTORE_PATH_IMAGE_ONLY
 
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def write_to_df(df, user_query, reference_answer, generated_answer, context, image, output_file):
     df.loc[len(df)] = [user_query, reference_answer, generated_answer, context, image]

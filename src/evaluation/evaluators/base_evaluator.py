@@ -26,7 +26,7 @@ class BaseEvaluator(EvaluatorInterface):
     Attributes: 
         model (str): The model to be used for evaluation.
         tokenizer (LlavaNextProcessor or PreTrainedTokenizerFast): Tokenizer used for tokenization. Can be None.
-        model_type (AzureChatOpenAI or LlavaNextForConditionalGeneration): Type of the model to use for evaluation.
+        model_type (ChatOpenAI or LlavaNextForConditionalGeneration): Type of the model to use for evaluation.
         json_parser (JsonOutputParser): Parser used to parse evaluation results to a json object.
         boolean_parser (BooleanOutputParser): Parser used to parse the assigned grade to a boolean value.
         check_grade_chain (TransformChain): Applies the transformation from the LLM output for the grade to a boolean value.
@@ -62,10 +62,8 @@ class BaseEvaluator(EvaluatorInterface):
             self.tokenizer = tokenizer
             self.config = get_azure_config()
             gpt4v_config = self.config['gpt4']
-            fixing_llm = AzureChatOpenAI(
+            fixing_llm = ChatOpenAI(
                 openai_api_version=gpt4v_config["openai_api_version"],
-                azure_endpoint=gpt4v_config["openai_endpoint"],
-                azure_deployment=gpt4v_config["deployment_name"],
                 model=gpt4v_config["model_version"],
                 api_key=os.environ.get("GPT4V_API_KEY"),
                 max_tokens=500

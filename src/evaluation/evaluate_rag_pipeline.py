@@ -4,7 +4,7 @@ from typing import List
 from evaluation_module import EvaluationModule
 
 
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+AZURE_OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 METRICS = ['Answer Correctness', 'Answer Relevancy']
 IMAGE_METRICS = ['Image Faithfulness', 'Image Context Relevancy']

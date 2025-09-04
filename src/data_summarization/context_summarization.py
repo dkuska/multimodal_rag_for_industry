@@ -1,5 +1,6 @@
 import pandas as pd
 import torch
+import os
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
@@ -15,7 +16,6 @@ from utils.model_loading_and_prompting.llava import format_prompt_with_image, ll
 from rag_env import INPUT_DATA, IMG_SUMMARIES_CACHE_DIR, TEXT_SUMMARIES_CACHE_DIR
 
 
-
 class TextSummarizer:
     """  
     A class to summarize texts using either AzureOpenAI's model or the LLama 3 8B model.
@@ -23,13 +23,13 @@ class TextSummarizer:
     Attributes:
         model_type (str): Type of the model to use for summarization.
         cache_path (str): Path to the directory where summaries will be cached as a CSV file.
-        model (AzureChatOpenAI or HuggingFacePipeline): The summarization model loaded based on `model_type`.
+        model (ChatOpenAI or HuggingFacePipeline): The summarization model loaded based on `model_type`.
         cache_file (str): The complete path to the cached CSV file containing text summaries.
         df (pd.DataFrame): DataFrame to store and manage texts and their corresponding summaries.
     """    
     
     def __init__(self, model_type: str, cache_path: str):
-        """  
+        """
         Initializes the TextSummarizer object.
   
         :param model_type: The type of model to be used for summarization.
@@ -42,10 +42,8 @@ class TextSummarizer:
             azure_llm_config = config[model_type]
             self.model = ChatOpenAI(
                 openai_api_version=azure_llm_config["openai_api_version"],
-                azure_endpoint=azure_llm_config["openai_endpoint"],
-                azure_deployment=azure_llm_config["deployment_name"],
                 model=azure_llm_config["model_version"],
-                api_key=os.environ.get("GPT4V_API_KEY"),
+                api_key=os.environ.get("OPENAI_API_KEY"),
                 max_tokens=400)
         else:
             pipe = pipeline("text-generation",
@@ -74,7 +72,7 @@ class TextSummarizer:
         :param texts: A list of texts to be summarized.
         :return: A list of summarized texts.
         """  
-        if type(self.model) == AzureChatOpenAI:
+        if type(self.model) == ChatOpenAI:
             text_summaries = self.summarize_azure(texts)
         else:
             text_summaries = self.summarize_llama(texts)
@@ -187,7 +185,6 @@ class TextSummarizer:
                 self.df.to_csv(self.cache_file, index=False)
   
         return self.df['text_summary'].tolist()
-    
 
 
 class ImageSummarizer:
@@ -200,7 +197,7 @@ class ImageSummarizer:
         Initializes the ImageSummarizer with a specific model and an optional tokenizer.
           
         :param model: The model to be used for generating image summaries. This can be an instance of either
-                      AzureChatOpenAI, LlavaNextForConditionalGeneration, or any model that supports image summarization.
+                      ChatOpenAI, LlavaNextForConditionalGeneration, or any model that supports image summarization.
         :param tokenizer: The tokenizer to be used with the model, if necessary. This is model-dependent and optional.
         """
         self.model = model
@@ -222,7 +219,7 @@ class ImageSummarizer:
         # Initialize base64 list
         img_base64_list = []
 
-        if type(self.model) == AzureChatOpenAI:
+        if type(self.model) == ChatOpenAI:
             model_type = "gpt4v"
         else:
             model_type = "llava"
