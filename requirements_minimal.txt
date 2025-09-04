@@ -1,5 +1,9 @@
 PyMuPDF
 transformers
 ftfy
+blis
 spacy
 torch
+langchain
+langchain-openai
+pyarrow

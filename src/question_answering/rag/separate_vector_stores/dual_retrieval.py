@@ -37,7 +37,7 @@ class DualSummaryStoreAndRetriever:
             print("Using text-embedding-3-small")
             azure_embedding_config = get_azure_config()['text_embedding_3']
             self.embeddings = OpenAIEmbeddings(model=azure_embedding_config["model_version"],
-                                                    openai_api_key=os.getenv("AZURE_OPENAI_API_KEY_EMBEDDING"),
+                                                    openai_api_key=os.getenv("OPENAI_API_KEY"),
                                                     chunk_size=64,
                                                     show_progress_bar=True
                                                     )
@@ -174,7 +174,7 @@ class DualClipRetriever:
             self.embeddings = OpenAIEmbeddings(model=azure_embedding_config["model_version"],
                                                     azure_endpoint=azure_embedding_config["openai_endpoint"],
                                                     openai_api_version=azure_embedding_config["openai_api_version"],
-                                                    openai_api_key=os.getenv("AZURE_OPENAI_API_KEY_EMBEDDING"),
+                                                    openai_api_key=os.getenv("OPENAI_API_KEY"),
                                                     chunk_size=64,
                                                     show_progress_bar=True
                                                     )
