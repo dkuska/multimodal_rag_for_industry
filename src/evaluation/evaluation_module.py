@@ -2,7 +2,7 @@ import base64
 import importlib
 import os
 from typing import Dict, List
-from langchain_openai import AzureChatOpenAI
+from langchain_openai import ChatOpenAI
 from utils.azure_config import get_azure_config
 from utils.model_loading_and_prompting.llava import load_llava_model
 

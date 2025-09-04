@@ -3,7 +3,7 @@ import logging
 import os
 from question_answering.rag.single_vector_store.rag_chain import MultimodalRAGChain
 from question_answering.rag.single_vector_store.retrieval import ClipRetriever
-from langchain_openai import AzureChatOpenAI
+from langchain_openai import ChatOpenAI
 from typing import List
 from utils.azure_config import get_azure_config
 from utils.model_loading_and_prompting.llava import load_llava_model

@@ -4,7 +4,7 @@ from langchain.chains.transform import TransformChain
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.runnables import RunnableLambda
-from langchain_openai import AzureChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.output_parsers import BooleanOutputParser, OutputFixingParser
 from transformers import LlavaNextForConditionalGeneration
 from evaluation.evaluators.evaluator_interface import EvaluatorInterface

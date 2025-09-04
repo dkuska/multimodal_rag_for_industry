@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from typing import List, Tuple
 from data_summarization.context_summarization import ImageSummarizer, TextSummarizer
-from langchain_openai import AzureChatOpenAI
+from langchain_openai import ChatOpenAI
 from question_answering.rag.single_vector_store.rag_chain import MultimodalRAGChain
 from question_answering.rag.single_vector_store.retrieval import SummaryStoreAndRetriever
 from utils.azure_config import get_azure_config

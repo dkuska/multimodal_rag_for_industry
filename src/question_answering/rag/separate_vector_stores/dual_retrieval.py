@@ -6,7 +6,7 @@ from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 from langchain_experimental.open_clip import OpenCLIPEmbeddings
-from langchain_openai import AzureOpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain.storage import LocalFileStore
 from utils.azure_config import get_azure_config
 from rag_env import IMAGES_DIR
@@ -36,9 +36,7 @@ class DualSummaryStoreAndRetriever:
         if embedding_model == 'openai':
             print("Using text-embedding-3-small")
             azure_embedding_config = get_azure_config()['text_embedding_3']
-            self.embeddings = AzureOpenAIEmbeddings(model=azure_embedding_config["model_version"],
-                                                    azure_endpoint=azure_embedding_config["openai_endpoint"],
-                                                    openai_api_version=azure_embedding_config["openai_api_version"],
+            self.embeddings = OpenAIEmbeddings(model=azure_embedding_config["model_version"],
                                                     openai_api_key=os.getenv("AZURE_OPENAI_API_KEY_EMBEDDING"),
                                                     chunk_size=64,
                                                     show_progress_bar=True
@@ -173,7 +171,7 @@ class DualClipRetriever:
         if text_embedding_model == 'openai':
             print("Using openai embeddings")
             azure_embedding_config = get_azure_config()['text_embedding_3']
-            self.embeddings = AzureOpenAIEmbeddings(model=azure_embedding_config["model_version"],
+            self.embeddings = OpenAIEmbeddings(model=azure_embedding_config["model_version"],
                                                     azure_endpoint=azure_embedding_config["openai_endpoint"],
                                                     openai_api_version=azure_embedding_config["openai_api_version"],
                                                     openai_api_key=os.getenv("AZURE_OPENAI_API_KEY_EMBEDDING"),

@@ -4,7 +4,7 @@ from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
-from langchain_openai import AzureChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.schema.runnable import RunnableLambda
 from transformers import pipeline, LlavaNextForConditionalGeneration, LlavaNextProcessor
 from tqdm.auto import tqdm
@@ -40,7 +40,7 @@ class TextSummarizer:
         
         if model_type in config:
             azure_llm_config = config[model_type]
-            self.model = AzureChatOpenAI(
+            self.model = ChatOpenAI(
                 openai_api_version=azure_llm_config["openai_api_version"],
                 azure_endpoint=azure_llm_config["openai_endpoint"],
                 azure_deployment=azure_llm_config["deployment_name"],

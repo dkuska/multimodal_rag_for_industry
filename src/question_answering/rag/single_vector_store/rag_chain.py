@@ -4,7 +4,7 @@ from langchain_core.documents import Document
 from langchain_core.messages import HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
-from langchain_openai import AzureChatOpenAI
+from langchain_openai import ChatOpenAI
 from utils.base64_utils.base64_utils import *
 from utils.model_loading_and_prompting.llava import llava_call
 from rag_env import REFERENCE_QA
