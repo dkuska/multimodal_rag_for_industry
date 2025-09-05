@@ -34,7 +34,6 @@ class MultimodalRAGPipelineClip:
             print("Using Azure model")
             azure_llm_config = config[model_type]
             self.model = ChatOpenAI(
-                openai_api_version=azure_llm_config["openai_api_version"],
                 model=azure_llm_config["model_version"],
                 api_key=os.getenv("OPENAI_API_KEY"),
                 max_tokens=400)

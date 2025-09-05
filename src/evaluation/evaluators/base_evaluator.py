@@ -63,7 +63,6 @@ class BaseEvaluator(EvaluatorInterface):
             self.config = get_azure_config()
             gpt4v_config = self.config['gpt4']
             fixing_llm = ChatOpenAI(
-                openai_api_version=gpt4v_config["openai_api_version"],
                 model=gpt4v_config["model_version"],
                 api_key=os.environ.get("GPT4V_API_KEY"),
                 max_tokens=500

@@ -35,7 +35,6 @@ class SummaryStoreAndRetriever:
             print("Using text-embedding-3-small")
             azure_embedding_config = get_azure_config()['text_embedding_3']
             self.embeddings = OpenAIEmbeddings(model=azure_embedding_config["model_version"],
-                                                    openai_api_version=azure_embedding_config["openai_api_version"],
                                                     openai_api_key=os.getenv("OPENAI_API_KEY"),
                                                     chunk_size=64,
                                                     show_progress_bar=True
@@ -66,7 +65,7 @@ class SummaryStoreAndRetriever:
             collection_name=f"mm_rag_with_image_summaries_{embedding_model}_embeddings"
         )
         results = self.vectorstore.get(include=["embeddings", "documents", "metadatas"])
-        self.is_new_vectorstore = bool(results["embeddings"])
+        self.is_new_vectorstore = bool(results["embeddings"].any())
 
         if self.is_new_vectorstore:
             print(f"Vectorstore at path {vectorstore_dir} already exists")

@@ -30,15 +30,16 @@ def process_dataframe(input_df, pipeline, output_file, output_df=None):
     return output_df
 
 
-  
 if __name__ == "__main__":
-    
+
     pipeline = MultimodalRAGPipelineSummaries(MODEL_TYPE, VECTORSTORE_PATH_TEXT_ONLY, EMBEDDING_MODEL_TYPE)
     texts_df, _ = pipeline.load_data(INPUT_DATA)
     texts, texts_filenames = texts_df[["text"]]["text"].tolist(), texts_df[["doc_id"]]["doc_id"].tolist()
     # the pipeline is indexed only with text, no images are added
     pipeline.index_data(texts=texts, text_filenames=texts_filenames)
     df = pd.read_excel(REFERENCE_QA)
+
+    print(df)
 
     output_file = os.path.join(RAG_OUTPUT_DIR, f"rag_output_{MODEL_TYPE}_text_only.json")
     output_df = process_dataframe(df, pipeline, output_file)

@@ -49,11 +49,11 @@ VECTORSTORE_PATH_CLIP_SINGLE = f"/home/nano/projects/multimodal_rag_for_industry
 VECTORSTORE_PATH_CLIP_SEPARATE = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/clip_dual"
 VECTORSTORE_PATH_SUMMARIES_SINGLE = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/image_summaries"
 VECTORSTORE_PATH_SUMMARIES_SEPARATE = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/image_summaries_dual"
-VECTORSTORE_PATH_IMAGE_ONLY = f"./home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/image_only"
-VECTORSTORE_PATH_TEXT_ONLY = f"./home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/text_only"
+VECTORSTORE_PATH_IMAGE_ONLY = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/image_only"
+VECTORSTORE_PATH_TEXT_ONLY = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/vec_and_doc_stores/text_only"
 
 # directory where the output of a RAG pipeline is stored
-RAG_OUTPUT_DIR = f"./home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/rag_outputs"
+RAG_OUTPUT_DIR = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/rag_outputs"
 
 # directory where the evaluation results for a RAG pipeline are stored
 EVAL_RESULTS_PATH = f"/home/nano/projects/multimodal_rag_for_industry/data/{DATASET_NAME}/rag_evaluation_results"

@@ -41,7 +41,6 @@ class TextSummarizer:
         if model_type in config:
             azure_llm_config = config[model_type]
             self.model = ChatOpenAI(
-                openai_api_version=azure_llm_config["openai_api_version"],
                 model=azure_llm_config["model_version"],
                 api_key=os.environ.get("OPENAI_API_KEY"),
                 max_tokens=400)
