@@ -6,4 +6,12 @@ spacy
 torch
 langchain
 langchain-openai
+langchain-community
+langchain-experimental
 pyarrow
+IPython
+Pillow
+chromadb
+openpyxl
+pandas
+langchain-chroma

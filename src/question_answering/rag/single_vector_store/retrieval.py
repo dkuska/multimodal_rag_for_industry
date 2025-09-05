@@ -35,7 +35,6 @@ class SummaryStoreAndRetriever:
             print("Using text-embedding-3-small")
             azure_embedding_config = get_azure_config()['text_embedding_3']
             self.embeddings = OpenAIEmbeddings(model=azure_embedding_config["model_version"],
-                                                    azure_endpoint=azure_embedding_config["openai_endpoint"],
                                                     openai_api_version=azure_embedding_config["openai_api_version"],
                                                     openai_api_key=os.getenv("OPENAI_API_KEY"),
                                                     chunk_size=64,
@@ -83,23 +82,53 @@ class SummaryStoreAndRetriever:
         self.retrieved_docs = []
 
 
-    def add_docs(self, doc_summaries: List[str], doc_contents: List[str], doc_filenames: List[str]):
-        """
-        Add documents to the vector store and document store.
+    def add_docs(
+        self,
+        doc_summaries: List[str],
+        doc_contents: List[str],
+        doc_filenames: List[str],
+        batch_size: int = 5000
+    ):
+        """Add documents to the vector store and document store in batches.
         
-        :param doc_summaries: Either text or image summaries to be stored in the vector store.
-        :param doc_contents: The original texts or images to be stored in the document store.
-        :param doc_filenames: File names associated with the respective documents to be stored as additional metadata.
+        Args:
+            doc_summaries: Either text or image summaries for the vector store.
+            doc_contents: The original texts or images for the document store.
+            doc_filenames: File names associated with the documents.
+            batch_size: Max documents to process in a single batch.
         """
         if not self.is_new_vectorstore:
             print("Adding documents...")
             doc_ids = [str(uuid.uuid4()) for _ in doc_contents]
-            summary_docs = [
-                Document(page_content=s, metadata={self.id_key: doc_ids[i], "filename": doc_filenames[i]})
-                for i, s in enumerate(doc_summaries)
-            ]
-            self.vectorstore.add_documents(summary_docs)
-            self.docstore.mset(list(zip(doc_ids, map(lambda x: str.encode(x), doc_contents))))
+            
+            # Process documents in batches
+            for i in range(0, len(doc_summaries), batch_size):
+                batch_end = min(i + batch_size, len(doc_summaries))
+                print(f"Batch {i//batch_size + 1}: docs {i} to {batch_end}")
+                
+                # Create batch of documents
+                batch_summary_docs = [
+                    Document(
+                        page_content=s,
+                        metadata={
+                            self.id_key: doc_ids[j],
+                            "filename": doc_filenames[j]
+                        }
+                    )
+                    for j, s in enumerate(doc_summaries[i:batch_end], start=i)
+                ]
+                
+                # Add documents to vector store
+                self.vectorstore.add_documents(batch_summary_docs)
+                
+                # Add corresponding documents to doc store
+                batch_doc_pairs = list(zip(
+                    doc_ids[i:batch_end],
+                    map(lambda x: str.encode(x), doc_contents[i:batch_end])
+                ))
+                self.docstore.mset(batch_doc_pairs)
+            
+            print("Finished adding all documents.")
         else:
             print("Documents have already been added before, skipping...")
 

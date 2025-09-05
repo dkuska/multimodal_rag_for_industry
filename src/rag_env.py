@@ -15,7 +15,7 @@ DATASET_NAME = [
     "DocBench",
     "LongDocURL",
     "MMLongBenchDoc",
-    "OHRBench",
+    "OHR-Bench",
     "SlideVQA",
 ][DATASET_ID]
 
@@ -29,7 +29,7 @@ MANUALS_DIR = [
     "/home/nano/projects/ChunkQuest/data/datasets/DocBench",
     "/home/nano/projects/ChunkQuest/data/datasets/LongDocURL/documents",
     "/home/nano/projects/ChunkQuest/data/datasets/MMLongBenchDoc/documents",
-    "/home/nano/projects/ChunkQuest/data/datasets/OHRBench/documents",
+    "/home/nano/projects/ChunkQuest/data/datasets/OHR-Bench/documents",
     "/home/nano/projects/ChunkQuest/data/datasets/SlideVQA/test/documents",
 ][DATASET_ID]
 
