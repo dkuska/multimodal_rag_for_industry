@@ -79,7 +79,7 @@ class DualSummaryStoreAndRetriever:
         results_text = self.text_vectorstore.get(include=["embeddings", "documents", "metadatas"])
         
         # A vector store is considered as already existing if it contains embeddings for both modalities
-        self.is_new_vectorstore = bool(results_img["embeddings"]) and bool(results_text["embeddings"])
+        self.is_new_vectorstore = bool(results_img["embeddings"].any()) and bool(results_text["embeddings"].any())
 
         if self.is_new_vectorstore:
             print(f"Vectorstore at path {img_vectorstore_dir} already exists")

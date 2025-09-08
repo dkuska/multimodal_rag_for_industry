@@ -122,13 +122,13 @@ if __name__ == "__main__":
                                                         images_dir=IMAGES_DIR, reference_qa=REFERENCE_QA, 
                                                         output_dir=RAG_OUTPUT_DIR, text_embedding_model=EMBEDDING_MODEL_TYPE)
     
-    rag_results_summaries_single = run_pipeline_with_summaries_single(qa_model=MODEL_TYPE,
-                                                                      vectorstore_path=VECTORSTORE_PATH_IMAGE_ONLY,
-                                                                      embedding_model=EMBEDDING_MODEL_TYPE, input_df=INPUT_DATA,
-                                                                      reference_qa=REFERENCE_QA, output_dir=RAG_OUTPUT_DIR,
-                                                                      img_summaries_dir=IMG_SUMMARIES_CACHE_DIR)
+    # rag_results_summaries_single = run_pipeline_with_summaries_single(qa_model=MODEL_TYPE,
+    #                                                                   vectorstore_path=VECTORSTORE_PATH_IMAGE_ONLY,
+    #                                                                   embedding_model=EMBEDDING_MODEL_TYPE, input_df=INPUT_DATA,
+    #                                                                   reference_qa=REFERENCE_QA, output_dir=RAG_OUTPUT_DIR,
+    #                                                                   img_summaries_dir=IMG_SUMMARIES_CACHE_DIR)
     
-    rag_results_summaries_single = run_pipeline_with_summaries_dual(qa_model=MODEL_TYPE, vectorstore_path=VECTORSTORE_PATH_IMAGE_ONLY,
-                                                                    embedding_model=EMBEDDING_MODEL_TYPE, input_df=INPUT_DATA,
-                                                                    reference_qa=REFERENCE_QA, output_dir=RAG_OUTPUT_DIR,
-                                                                    img_summaries_dir=IMG_SUMMARIES_CACHE_DIR)
+    # rag_results_summaries_single = run_pipeline_with_summaries_dual(qa_model=MODEL_TYPE, vectorstore_path=VECTORSTORE_PATH_IMAGE_ONLY,
+    #                                                                 embedding_model=EMBEDDING_MODEL_TYPE, input_df=INPUT_DATA,
+    #                                                                 reference_qa=REFERENCE_QA, output_dir=RAG_OUTPUT_DIR,
+    #                                                                 img_summaries_dir=IMG_SUMMARIES_CACHE_DIR)

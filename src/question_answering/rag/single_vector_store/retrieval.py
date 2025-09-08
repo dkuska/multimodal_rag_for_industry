@@ -1,6 +1,7 @@
 import os
 import uuid
 import pandas as pd
+from tqdm import tqdm
 from langchain.retrievers import MultiVectorRetriever
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -164,7 +165,7 @@ class ClipRetriever:
         )
 
         results = self.vectorstore.get(include=["embeddings", "documents", "metadatas"])
-        self.is_new_vectorstore = bool(results["embeddings"])
+        self.is_new_vectorstore = bool(results["embeddings"].any())
 
         if self.is_new_vectorstore:
             print(f"Vectorstore at path {vectorstore_dir} already exists")
@@ -178,30 +179,36 @@ class ClipRetriever:
         
         
         
-    def add_documents(self, images_dir: str=None, texts_df: pd.DataFrame=None):
+    def add_documents(self, images_dir: str=None, texts_df: pd.DataFrame=None, batch_size: int=8):
         """
-        Add images and texts to the vector store.
+        Add images and texts to the vector store in batches.
         
         :param images_dir: Directory containing the images to be embedded.
         :param texts_df: Dataframe containing the texts to be embedded.
+        :param batch_size: Size of batches for processing images and texts (default: 64).
         """
         if not self.is_new_vectorstore:
             if images_dir:
                 image_uris = self.extract_image_uris(images_dir)  
                 print(f"Found {len(image_uris)} images")
                 
-                # Convert the list of URIs to a list of dictionaries  
-                image_metadatas = [{'filename': self.extract_manual_name(uri)} for uri in image_uris]  
-                
-                print("Adding images to vectorstore...")
-                self.vectorstore.add_images(uris=image_uris, metadatas=image_metadatas)
+                # Process images in batches with progress bar
+                for i in tqdm(range(0, len(image_uris), batch_size), desc="Adding images to vectorstore"):
+                    batch_end = min(i + batch_size, len(image_uris))
+                    batch_uris = image_uris[i:batch_end]
+                    batch_metadatas = [{'filename': self.extract_manual_name(uri)} for uri in batch_uris]
+                    self.vectorstore.add_images(uris=batch_uris, metadatas=batch_metadatas)
                 
             if texts_df is not None:
                 texts = texts_df["text"].to_list()
-                text_metadatas = [{'filename': doc_id} for doc_id in texts_df['doc_id']] 
+                text_metadatas = [{'filename': doc_id} for doc_id in texts_df['doc_id']]
 
-                print("Adding texts to vectorstore...")
-                self.vectorstore.add_texts(texts=texts, metadatas=text_metadatas)
+                # Process texts in batches with progress bar
+                for i in tqdm(range(0, len(texts), batch_size), desc="Adding texts to vectorstore"):
+                    batch_end = min(i + batch_size, len(texts))
+                    batch_texts = texts[i:batch_end]
+                    batch_metadatas = text_metadatas[i:batch_end]
+                    self.vectorstore.add_texts(texts=batch_texts, metadatas=batch_metadatas)
         else:
             print("Documents have already been added before, skipping...")
 
